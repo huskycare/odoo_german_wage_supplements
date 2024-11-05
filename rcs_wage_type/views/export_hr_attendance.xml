@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_attendance_export_view" model="ir.ui.view">
+            <field name="name">Start export</field>
+            <field name="model">export_hr_attendance</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form edit="0" create="0">
+                    <div attrs="{'invisible': [('export_file', '=', False)]}">
+                        <p>Download export file: &#xA0;&#xA0;&#xA0;<field name="export_file" readonly="1" filename="filename"/>
+                        </p>
+                        <field name="filename" invisible="1"/>
+                    </div>
+                    <footer>
+                        <div attrs="{'invisible': [('export_file', '=', True)]}">
+                            <button string="Start export" name="get_export_values" type="object" class="oe_highlight"/>
+                        </div>
+                        <button special="cancel" string="Cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_export_hr_attendance_start" model="ir.actions.act_window">
+            <field name="name">Start export</field>
+            <field name="res_model">export_hr_attendance</field>
+            <field name="view_id" ref="hr_attendance_export_view"/>
+            <field name="target">new</field>
+            <field name="context">{'create': False,'edit': False}</field>
+        </record>
+
+        <record id="rcs_export_hr_attendance_view_tree" model="ir.ui.view">
+            <field name="name">rcs.export.export_hr_attendance.view.tree</field>
+            <field name="model">export_hr_attendance</field>
+            <field name="arch" type="xml">
+                <tree string="Exports" edit="0" create="0">
+                    <field name="filename"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="rcs_export_hr_attendance_view_form" model="ir.ui.view">
+            <field name="name">rcs.export.export_hr_attendance.view.form</field>
+            <field name="model">export_hr_attendance</field>
+            <field name="arch" type="xml">
+                <form string="Exports" edit="0" create="0">
+                    <field name="filename" invisible="1"/>
+                    <field name="export_file" filename="filename"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_export_hr_attendance" model="ir.actions.act_window">
+            <field name="name">Exports</field>
+            <field name="res_model">export_hr_attendance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="rcs_export_hr_attendance_view_tree"/>
+            <field name="domain">[['filename', '!=', '']]</field>
+        </record>
+
+        <menuitem id="menu_attendance_export" name="Export" parent="hr_attendance.menu_hr_attendance_root" sequence="30" groups="hr_attendance.group_hr_attendance_manager"/>
+        <menuitem name="Start export" action="action_export_hr_attendance_start" id="menu_action_attendance_start_export"
+                  parent="menu_attendance_export" sequence="10" groups="hr_attendance.group_hr_attendance_manager"/>
+        <menuitem name="Exports" action="action_export_hr_attendance" id="menu_action_attendance_export"
+                  parent="menu_attendance_export" sequence="20" groups="hr_attendance.group_hr_attendance_manager"/>
+    </data>
+</odoo>

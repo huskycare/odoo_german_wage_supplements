@@ -1,0 +1,344 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* rcs_wage_type
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-05 10:17+0000\n"
+"PO-Revision-Date: 2024-11-05 11:17+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__all_day
+msgid "All Day"
+msgstr "Ganztägig"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_hr_attendance
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__attendance_id
+msgid "Attendance"
+msgstr "Anwesenheit"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__attendance_ids
+msgid "Attendance IDs"
+msgstr "Anwesenheits-IDs"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_attendance_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_attendance__attendance_ids
+msgid "Attendance Wage Type"
+msgstr "Anwesenheits-Lohnart"
+
+#. module: rcs_wage_type
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.hr_attendance_export_view
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__start_before_midnight
+msgid "Check in Before Midnight"
+msgstr "Einchecken vor Mitternacht"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__create_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__create_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__create_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__create_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__create_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__create_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: rcs_wage_type
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.rcs_view_hr_attendance_tree
+msgid "Details"
+msgstr "Einzelheiten"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__display_name
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__display_name
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__display_name
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: rcs_wage_type
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.hr_attendance_export_view
+msgid "Download export file:"
+msgstr "Exportdatei herunterladen:"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__end_time
+msgid "End Time"
+msgstr "Endzeit"
+
+#. module: rcs_wage_type
+#: model:ir.ui.menu,name:rcs_wage_type.menu_attendance_export
+msgid "Export"
+msgstr "Exportieren"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__export_file
+msgid "Export File"
+msgstr "Exportdatei"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_export_hr_attendance
+msgid "Export for HR Attendance Export"
+msgstr "Export für HR-Anwesenheits-Export"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__export_id
+msgid "Export-ID"
+msgstr ""
+
+#. module: rcs_wage_type
+#: model:ir.actions.act_window,name:rcs_wage_type.action_export_hr_attendance
+#: model:ir.ui.menu,name:rcs_wage_type.menu_action_attendance_export
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.rcs_export_hr_attendance_view_form
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.rcs_export_hr_attendance_view_tree
+msgid "Exports"
+msgstr "Exporte"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__holiday_high__false
+msgid "False"
+msgstr "Nein"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__filename
+msgid "Filename"
+msgstr "Dateiname"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__4
+msgid "Friday"
+msgstr "Freitag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_resource_calendar_leaves__holiday_high
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__holiday_high
+msgid "Holiday High"
+msgstr "Hoher Feiertag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__hours
+msgid "Hours"
+msgstr "Stunden"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__id
+msgid "ID"
+msgstr ""
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type____last_update
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance____last_update
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time____last_update
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__write_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__write_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__write_uid
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__write_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__write_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__write_date
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__leave_id
+msgid "Leave"
+msgstr "Abwesenheit"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__0
+msgid "Monday"
+msgstr "Montag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__holiday_high__no
+msgid "No Holidays"
+msgstr "Kein Feiertag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__none
+msgid "No Weekday"
+msgstr "Kein Wochentag"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_resource_calendar_leaves
+msgid "Resource Time Off Detail"
+msgstr "Abwesenheitsdetails der Ressource"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__5
+msgid "Saturday"
+msgstr "Samstag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__hr_leave_type__vacation_sick__sick
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__vacation_sick__sick
+msgid "Sick"
+msgstr "Krank"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_attendance__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_leave__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_leave_type__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_resource_calendar_leaves__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__smart_search
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__smart_search
+msgid "Smart Search"
+msgstr "Intelligente Suche"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__hr_leave_type__vacation_sick__none
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__vacation_sick__none
+msgid "Standard"
+msgstr ""
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__standard_wage_type
+msgid "Standard Wage Type"
+msgstr "Standard-Lohnart"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_start_end_time
+msgid "Start End Time"
+msgstr "Start und Endzeit"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__start_time
+msgid "Start Time"
+msgstr "Startzeit"
+
+#. module: rcs_wage_type
+#: model:ir.actions.act_window,name:rcs_wage_type.action_export_hr_attendance_start
+#: model:ir.ui.menu,name:rcs_wage_type.menu_action_attendance_start_export
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.hr_attendance_export_view
+msgid "Start export"
+msgstr "Export starten"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__6
+msgid "Sunday"
+msgstr "Sonntag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__supplement
+msgid "Supplement in %"
+msgstr "Zuschlag in %"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__3
+msgid "Thursday"
+msgstr "Donnerstag"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_hr_leave
+msgid "Time Off"
+msgstr "Abwesenheiten"
+
+#. module: rcs_wage_type
+#: model:ir.model,name:rcs_wage_type.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "Abwesenheitsart"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__time_from
+msgid "Time from"
+msgstr "Zeit von"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__time_to
+msgid "Time to"
+msgstr "Zeit bis"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__time_ids
+msgid "Times"
+msgstr "Zeiten"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_attendance__total_hours
+msgid "Total Hours"
+msgstr "Gesamtstunden"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__holiday_high__true
+msgid "True"
+msgstr "Ja"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__1
+msgid "Tuesday"
+msgstr "Dienstag"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__hr_leave_type__vacation_sick__vacation
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__vacation_sick__vacation
+msgid "Vacation"
+msgstr "Urlaub"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_leave_type__vacation_sick
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__vacation_sick
+msgid "Vacation Sick"
+msgstr "Urlaub oder Krank"
+
+#. module: rcs_wage_type
+#: model:ir.actions.act_window,name:rcs_wage_type.action_wage_type
+#: model:ir.model,name:rcs_wage_type.model_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type__wage_type_id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_leave_type__wage_type_id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time__wage_type_id
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__name
+#: model:ir.ui.menu,name:rcs_wage_type.wage_type_menu
+msgid "Wage Type"
+msgstr "Lohnarten"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__number
+msgid "Wage Type Id"
+msgstr "Lohnart-ID"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__2
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__weekday
+msgid "Weekday"
+msgstr "Wochentag"

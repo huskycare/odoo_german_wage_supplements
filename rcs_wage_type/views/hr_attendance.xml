@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rcs_view_hr_attendance_tree" model="ir.ui.view">
+            <field name="name">rcs.hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="field[@name='worked_hours']" position="after">
+                    <button name="open_hr_attendance_wage_types" string="Details" type="object"/>
+                </xpath>
+            </field>
+         </record>
+
+        <record id="rcs_view_hr_attendance_wage_type_form" model="ir.ui.view">
+            <field name="name">rcs.hr.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="employee_id"/>
+                        </h1>
+                        <field name="attendance_ids" readonly="1">
+                            <tree>
+                                <field name="wage_type_id"/>
+                                <field name="time_from"/>
+                                <field name="time_to"/>
+                                <field name="hours" widget="float_time"/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right mt-2 mt-md-0" colspan="2">
+                            <field name="total_hours" widget="float_time"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+         </record>
+    </data>
+</odoo>

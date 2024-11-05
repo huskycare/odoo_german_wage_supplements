@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="rcs_view_wage_type_form" model="ir.ui.view">
+            <field name="name">rcs.wage.type.form</field>
+            <field name="model">wage.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group col="4">
+                            <field name="number"/>
+                            <field name="standard_wage_type"/>
+                            <field name="supplement"/>
+                            <field name="holiday_high" widget="radio" options="{'horizontal':true}"/>
+                            <field name="all_day" attrs="{'invisible': [('holiday_high', '!=', 'no')]}"/>
+                            <field name="weekday"/>
+                            <field name="vacation_sick" widget="radio" options="{'horizontal':true}"/>
+                            <field name="time_ids" attrs="{'invisible': ['|', ('all_day', '=', True), ('holiday_high', '!=', 'no')]}">
+                                <tree editable="buttom">
+                                    <field name="start_time" widget="float_time"/>
+                                    <field name="end_time" widget="float_time"/>
+                                </tree>
+                            </field>
+                            <field name="start_before_midnight"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+         </record>
+
+        <record id="rcs_view_wage_type_tree" model="ir.ui.view">
+            <field name="name">rcs.wage.type.tree</field>
+            <field name="model">wage.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="supplement"/>
+                </tree>
+            </field>
+         </record>
+
+        <record id="action_wage_type" model="ir.actions.act_window">
+            <field name="name">Wage Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wage.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="wage_type_menu" parent="hr.menu_human_resources_configuration" name="Wage Type" action="action_wage_type"/>
+    </data>
+</odoo>
