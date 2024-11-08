@@ -12,6 +12,9 @@
                         </p>
                         <field name="filename" invisible="1"/>
                     </div>
+                    <div attrs="{'invisible': [('export_file', '!=', False)]}">
+                        <p>No data for Export.</p>
+                    </div>
                     <footer>
                         <div attrs="{'invisible': [('export_file', '=', True)]}">
                             <button string="Start export" name="get_export_values" type="object" class="oe_highlight"/>
@@ -36,6 +39,7 @@
             <field name="arch" type="xml">
                 <tree string="Exports" edit="0" create="0">
                     <field name="filename"/>
+                    <field name="create_date"/>
                 </tree>
             </field>
         </record>
@@ -45,8 +49,10 @@
             <field name="model">export_hr_attendance</field>
             <field name="arch" type="xml">
                 <form string="Exports" edit="0" create="0">
-                    <field name="filename" invisible="1"/>
-                    <field name="export_file" filename="filename"/>
+                    <sheet>
+                        <field name="filename" invisible="1"/>
+                        <field name="export_file" filename="filename"/>
+                    </sheet>
                 </form>
             </field>
         </record>

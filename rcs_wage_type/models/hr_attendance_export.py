@@ -18,12 +18,30 @@ class HrAttendanceExport(models.Model):
     def get_export_values(self, export_file=None):
         self.ensure_one()
         empty = self.env['export_hr_attendance'].search([('filename', '=', False), ('id', '!=', self.id)])
-
         empty.unlink()
 
         records = self.env['attendance_wage_type'].search([('export_id', '=', False)])
 
         export_content = io.StringIO()
+        datev_consultant_number = self.env.user.company_id.datev_consultant_number or ''
+        datev_client_number = self.env.user.company_id.datev_client_number or ''
+
+        export_content.write(f"""[Allgemein]
+Ziel=LODAS
+Version_SST=1.0
+Version_DB=11.1
+BeraterNr={datev_consultant_number}
+MandantenNr={datev_client_number}
+Datumsformat=TT/MM/JJJJ
+Stringbegrenzer="
+
+
+[Satzbeschreibung]
+1;u_lod_bwd_buchung_standard;abrechnung_zeitraum#bwd;bs_nr#bwd;bs_wert_butab#bwd;la_eigene#bwd;pnr#bwd;kostenstelle#bwd;
+
+
+[Bewegungsdaten]
+""")
 
         for record in records:
             u_lod_bwd_buchung_standard = 1

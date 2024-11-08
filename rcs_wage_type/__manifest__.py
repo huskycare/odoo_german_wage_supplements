@@ -16,6 +16,7 @@
         'hr_holidays',
         'hr_attendance',
         'resource',
+        'datev_export',
     ],
     'data': [
         'views/wage_type.xml',
