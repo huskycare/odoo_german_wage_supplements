@@ -49,7 +49,8 @@ Stringbegrenzer="
             bs_nr_bwd = 1
             bs_wert_butab_bwd = int(record.hours * 60)
             la_eigene_bwd = record.wage_type_id.number if record.wage_type_id else ''
-            pnr_bwd = record.attendance_id.employee_id.id if record.attendance_id.employee_id else record.leave_id.employee_id.id
+            pnr_bwd = (record.attendance_id.employee_id.barcode if record.attendance_id.employee_id
+                       else record.leave_id.employee_id.barcode) or ''
             kostenstelle_bwd = ''
 
             line = f"{u_lod_bwd_buchung_standard};{abrechnung_zeitraum_bwd};{bs_nr_bwd};{bs_wert_butab_bwd};{la_eigene_bwd};{pnr_bwd};{kostenstelle_bwd};\n"

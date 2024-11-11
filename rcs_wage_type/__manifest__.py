@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'RCS Wage Type',
-    'version': '24.45.1',
+    'version': '24.46.1',
     'category': 'RCS Models',
     'summary': '''Interface between Lodas and Odoo.
                Assignment of wage types to each attendance and absence.
