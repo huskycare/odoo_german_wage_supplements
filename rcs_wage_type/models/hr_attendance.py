@@ -193,7 +193,10 @@ class HrAttendance(models.Model):
                     day_start_time = Datetime.context_timestamp(self, holidays[0].date_from)
                     day_end_time = Datetime.context_timestamp(self, holidays[0].date_to)
                     if time_id.end_time >= 23.98:
-                        day_end_time = day_end_time.replace(day=day_end_time.day + 1, hour=0, minute=0, second=0,
+                        if check_out.month != check_in.month:
+                            day_end_time = day_end_time.replace(month=day_end_time.month + 1, day=1, hour=0, minute=0, second=0, microsecond=0)
+                        elif check_out.day != check_in.day:
+                            day_end_time = day_end_time.replace(day=day_end_time.day + 1, hour=0, minute=0, second=0,
                                                             microsecond=0)
                 else:
                     start_hour = int(time_id.start_time)
@@ -203,11 +206,14 @@ class HrAttendance(models.Model):
 
                     end_hour = int(time_id.end_time)
                     end_minutes = int((time_id.end_time - end_hour) * 60)
-                    day_end_time = check_out.replace(year=date.year, month=date.month, day=date.day)
+                    day_end_time = check_out.replace(year=date.year, month=date.month, day=date.day, hour=0, minute=0, second=0, microsecond=0)
                     if end_hour == 0 and end_minutes == 0 or time_id.end_time >= 23.98:
-                        day_end_time = day_end_time.replace(day=date.day + 1, hour=0, minute=0, second=0, microsecond=0)
+                        if check_out.month != check_in.month:
+                            day_end_time = day_end_time.replace(month= day_end_time.month + 1, day=1)
+                        elif check_out.day != check_in.day:
+                            day_end_time = day_end_time.replace(day=date.day + 1)
                     else:
-                        day_end_time = day_end_time.replace(hour=end_hour, minute=end_minutes, second=0, microsecond=0)
+                        day_end_time = day_end_time.replace(hour=end_hour, minute=end_minutes)
                 if day_end_time <= check_in or day_start_time >= check_out:
                     list_work_time.pop(0)
                     list_work_time.append((check_in, check_out))
