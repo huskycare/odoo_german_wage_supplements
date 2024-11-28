@@ -151,6 +151,12 @@ msgid "ID"
 msgstr ""
 
 #. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_hr_attendance__is_exported
+#, fuzzy
+msgid "Is Exported"
+msgstr "Ist Exportiert"
+
+#. module: rcs_wage_type
 #: model:ir.model.fields,field_description:rcs_wage_type.field_attendance_wage_type____last_update
 #: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance____last_update
 #: model:ir.model.fields,field_description:rcs_wage_type.field_start_end_time____last_update

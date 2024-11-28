@@ -8,6 +8,7 @@ class HrAttendance(models.Model):
 
     attendance_ids = fields.One2many('attendance_wage_type', 'attendance_id', string='Attendance Wage Type')
     total_hours = fields.Float('Total Hours', compute='_compute_total_hours', store=True)
+    is_exported = fields.Boolean('Is Exported', compute='compute_is_exported', store=True)
 
     @api.depends('attendance_ids')
     def _compute_total_hours(self):
@@ -15,6 +16,15 @@ class HrAttendance(models.Model):
             record.total_hours = 0
             for attendance in record.attendance_ids:
                 record.total_hours += attendance.hours
+
+    @api.depends('check_in', 'check_out')
+    def compute_is_exported(self):
+        for attendance in self.attendance_ids:
+            if attendance.export_id:
+                self.is_exported = True
+                break
+            else:
+                self.is_exported = False
 
     @api.model_create_multi
     def create(self, vals_list):

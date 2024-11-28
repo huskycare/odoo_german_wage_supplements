@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="field[@name='worked_hours']" position="after">
                     <button name="open_hr_attendance_wage_types" string="Details" type="object"/>
+                    <field name="is_exported"/>
                 </xpath>
             </field>
          </record>
