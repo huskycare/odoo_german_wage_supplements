@@ -6,6 +6,6 @@ class StartEndTime(models.Model):
     _description = 'Start End Time'
     _order = 'start_time'
 
-    wage_type_id = fields.Many2one('wage.type', string='Wage Type')
+    wage_type_id = fields.Many2one('wage.type', string='Wage Type', ondelete='cascade')
     start_time = fields.Float(string='Start Time')
     end_time = fields.Float(string='End Time')
