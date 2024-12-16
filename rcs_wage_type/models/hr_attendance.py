@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 import pytz
+import calendar
 from odoo.fields import Datetime
 
 
@@ -208,9 +209,10 @@ class HrAttendance(models.Model):
                     end_minutes = int((time_id.end_time - end_hour) * 60)
                     day_end_time = check_out.replace(year=date.year, month=date.month, day=date.day, hour=0, minute=0, second=0, microsecond=0)
                     if end_hour == 0 and end_minutes == 0 or time_id.end_time >= 23.98:
-                        if check_out.month != check_in.month:
+                        last_day_of_month = calendar.monthrange(day_end_time.year, day_end_time.month)[1]
+                        if day_end_time.day == last_day_of_month:
                             day_end_time = day_end_time.replace(month= day_end_time.month + 1, day=1)
-                        elif check_out.day != check_in.day:
+                        else:
                             day_end_time = day_end_time.replace(day=date.day + 1)
                     else:
                         day_end_time = day_end_time.replace(hour=end_hour, minute=end_minutes)
