@@ -35,7 +35,8 @@ class HrAttendance(models.Model):
 
     def write(self, vals):
         res = super(HrAttendance, self).write(vals)
-        self.create_attendance_wage_type()
+        if 'is_exported' not in vals:
+            self.create_attendance_wage_type()
         return res
 
     def create_attendance_wage_type(self):

@@ -6,16 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-05 10:17+0000\n"
-"PO-Revision-Date: 2024-11-05 11:17+0100\n"
+"POT-Creation-Date: 2024-12-17 07:25+0000\n"
+"PO-Revision-Date: 2024-12-17 07:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+
+#. module: rcs_wage_type
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.hr_attendance_export_view
+msgid "<b> - </b>"
+msgstr "<b> - </b>"
 
 #. module: rcs_wage_type
 #: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__all_day
@@ -64,6 +67,16 @@ msgstr "Erstellt von"
 #: model:ir.model.fields,field_description:rcs_wage_type.field_wage_type__create_date
 msgid "Created on"
 msgstr "Erstellt am"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__date_from
+msgid "Date From"
+msgstr "Von"
+
+#. module: rcs_wage_type
+#: model:ir.model.fields,field_description:rcs_wage_type.field_export_hr_attendance__date_to
+msgid "Date To"
+msgstr "Bis"
 
 #. module: rcs_wage_type
 #: model_terms:ir.ui.view,arch_db:rcs_wage_type.rcs_view_hr_attendance_tree
@@ -152,7 +165,6 @@ msgstr ""
 
 #. module: rcs_wage_type
 #: model:ir.model.fields,field_description:rcs_wage_type.field_hr_attendance__is_exported
-#, fuzzy
 msgid "Is Exported"
 msgstr "Ist Exportiert"
 
@@ -199,6 +211,11 @@ msgstr "Kein Feiertag"
 #: model:ir.model.fields.selection,name:rcs_wage_type.selection__wage_type__weekday__none
 msgid "No Weekday"
 msgstr "Kein Wochentag"
+
+#. module: rcs_wage_type
+#: model_terms:ir.ui.view,arch_db:rcs_wage_type.hr_attendance_export_view
+msgid "Period"
+msgstr "Zeitraum"
 
 #. module: rcs_wage_type
 #: model:ir.model,name:rcs_wage_type.model_resource_calendar_leaves

@@ -12,7 +12,7 @@ class AttendanceWageType(models.Model):
     hours = fields.Float('Hours')
     attendance_id = fields.Many2one('hr.attendance', string='Attendance', ondelete='cascade')
     leave_id = fields.Many2one('hr.leave', string='Leave')
-    export_id = fields.Many2one('export_hr_attendance', string='Export-ID')
+    export_id = fields.Many2one('export.hr.attendance', string='Export-ID')
 
 
     def write(self, vals):

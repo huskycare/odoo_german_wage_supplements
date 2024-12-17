@@ -7,20 +7,26 @@ from datetime import datetime
 
 
 class HrAttendanceExport(models.Model):
-    _name = 'export_hr_attendance'
+    _name = 'export.hr.attendance'
     _description = 'Export for HR Attendance Export'
     _rec_name = 'filename'
 
     export_file = fields.Binary(string='Export File')
     filename = fields.Char(string='Filename')
     attendance_ids = fields.One2many('attendance_wage_type', 'export_id', string="Attendance IDs")
+    date_from = fields.Date(string='Date From')
+    date_to = fields.Date(string='Date To')
 
     def get_export_values(self, export_file=None):
         self.ensure_one()
-        empty = self.env['export_hr_attendance'].search([('filename', '=', False), ('id', '!=', self.id)])
+        empty = self.env['export.hr.attendance'].search([('filename', '=', False), ('id', '!=', self.id)])
         empty.unlink()
 
-        records = self.env['attendance_wage_type'].search([('export_id', '=', False)])
+        records = self.env['attendance_wage_type'].search([
+            ('export_id', '=', False),
+            ('time_from', '>=', self.date_from),
+            ('time_from', '<=', self.date_to)
+        ])
 
         export_content = io.StringIO()
         datev_consultant_number = self.env.user.company_id.datev_consultant_number or ''
@@ -69,7 +75,7 @@ Stringbegrenzer="
             'name': 'Export',
             'view_mode': 'form',
             'view_id': self.env.ref('rcs_wage_type.hr_attendance_export_view').id,
-            'res_model': 'export_hr_attendance',
+            'res_model': 'export.hr.attendance',
             'type': 'ir.actions.act_window',
             'target': 'new',
             'res_id': self.id,

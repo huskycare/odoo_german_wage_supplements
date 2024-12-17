@@ -3,7 +3,7 @@
     <data>
         <record id="hr_attendance_export_view" model="ir.ui.view">
             <field name="name">Start export</field>
-            <field name="model">export_hr_attendance</field>
+            <field name="model">export.hr.attendance</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form edit="0" create="0">
@@ -12,9 +12,14 @@
                         </p>
                         <field name="filename" invisible="1"/>
                     </div>
-                    <div attrs="{'invisible': [('export_file', '!=', False)]}">
-                        <p>No data for Export.</p>
-                    </div>
+                    <group>
+                        <label for="date_from" string="Period"/>
+                        <div>
+                            <field name="date_from" class="oe_inline"/>
+                            <b> - </b>
+                            <field name="date_to" class="oe_inline"/>
+                        </div>
+                    </group>
                     <footer>
                         <div attrs="{'invisible': [('export_file', '=', True)]}">
                             <button string="Start export" name="get_export_values" type="object" class="oe_highlight"/>
@@ -27,7 +32,7 @@
 
         <record id="action_export_hr_attendance_start" model="ir.actions.act_window">
             <field name="name">Start export</field>
-            <field name="res_model">export_hr_attendance</field>
+            <field name="res_model">export.hr.attendance</field>
             <field name="view_id" ref="hr_attendance_export_view"/>
             <field name="target">new</field>
             <field name="context">{'create': False,'edit': False}</field>
@@ -35,10 +40,12 @@
 
         <record id="rcs_export_hr_attendance_view_tree" model="ir.ui.view">
             <field name="name">rcs.export.export_hr_attendance.view.tree</field>
-            <field name="model">export_hr_attendance</field>
+            <field name="model">export.hr.attendance</field>
             <field name="arch" type="xml">
                 <tree string="Exports" edit="0" create="0">
                     <field name="filename"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
                     <field name="create_date"/>
                 </tree>
             </field>
@@ -46,7 +53,7 @@
 
         <record id="rcs_export_hr_attendance_view_form" model="ir.ui.view">
             <field name="name">rcs.export.export_hr_attendance.view.form</field>
-            <field name="model">export_hr_attendance</field>
+            <field name="model">export.hr.attendance</field>
             <field name="arch" type="xml">
                 <form string="Exports" edit="0" create="0">
                     <sheet>
@@ -59,7 +66,7 @@
 
         <record id="action_export_hr_attendance" model="ir.actions.act_window">
             <field name="name">Exports</field>
-            <field name="res_model">export_hr_attendance</field>
+            <field name="res_model">export.hr.attendance</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="rcs_export_hr_attendance_view_tree"/>
             <field name="domain">[['filename', '!=', '']]</field>

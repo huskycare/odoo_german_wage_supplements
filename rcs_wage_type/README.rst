@@ -22,7 +22,7 @@ In 'hr_leave', a wage type must be assigned to each respective absence.
 When creating an attendance record, the assigned wage types will be visible under Details in the list view of attendances.
 Absences are only visible in the export.
 
-Feldbeschreibungen
+Field descriptions
 ------------------
 
 **name**
@@ -59,6 +59,7 @@ Feldbeschreibungen
     - Example for night supplement:
         - Row 1: 00:00 - 06:00
         - Row 2: 22:00 - 00:00
+    - Times that go beyond midnight must be in individual lines
 
 **weekday**
     - Type: fields.Selection
