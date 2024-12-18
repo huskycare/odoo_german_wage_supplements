@@ -14,9 +14,9 @@ class WageType(models.Model):
     standard_wage_type = fields.Boolean(string='Standard Wage Type', default=False)
     time_ids = fields.One2many('start.end.time', 'wage_type_id', 'Times')
     weekday = fields.Selection([
-        ('none', 'No Weekday'), ('0', 'Monday'), ('1', 'Tuesday'), ('2', 'Wednesday'), ('3', 'Thursday'),
+        ('0', 'Monday'), ('1', 'Tuesday'), ('2', 'Wednesday'), ('3', 'Thursday'),
         ('4', 'Friday'), ('5', 'Saturday'), ('6', 'Sunday')],
-        string='Weekday', default='none')
+        string='Weekday')
     vacation_sick = fields.Selection([('none', 'Standard'), ('vacation', 'Vacation'), ('sick', 'Sick')], default="none")
     holiday_high = fields.Selection([('no', 'No Holidays'), ('True', 'True'), ('False', 'False')],
                                     string='Holiday High', default='no')
