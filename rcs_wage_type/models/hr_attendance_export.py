@@ -5,6 +5,8 @@ import io
 import odoo
 from datetime import datetime
 
+from odoo.exceptions import UserError
+
 
 class HrAttendanceExport(models.Model):
     _name = 'export.hr.attendance'
@@ -66,10 +68,13 @@ Stringbegrenzer="
             self.write(
                 {'export_file': base64.b64encode(
                     export_content.getvalue().encode(encoding='iso-8859-1', errors="replace")),
-                 'filename': "export_" + str(
-                     odoo.fields.Datetime.context_timestamp(self, datetime.now()).strftime('%Y_%m_%d_%H_%M')).replace(
-                     '-', '_') + ".txt",
-                 })
+                    'filename': "export_" + str(
+                        odoo.fields.Datetime.context_timestamp(self, datetime.now()).strftime(
+                            '%Y_%m_%d_%H_%M')).replace(
+                        '-', '_') + ".txt",
+                })
+        else:
+            raise UserError("There are no records to export.")
 
         return {
             'name': 'Export',
