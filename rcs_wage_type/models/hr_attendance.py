@@ -10,6 +10,7 @@ class HrAttendance(models.Model):
     attendance_ids = fields.One2many('attendance_wage_type', 'attendance_id', string='Attendance Wage Type')
     total_hours = fields.Float('Total Hours', compute='_compute_total_hours', store=True)
     is_exported = fields.Boolean('Is Exported', compute='compute_is_exported', store=True)
+    holiday = fields.Many2one('resource.calendar.leaves', string='Holiday')
 
     @api.depends('attendance_ids')
     def _compute_total_hours(self):
@@ -35,7 +36,7 @@ class HrAttendance(models.Model):
 
     def write(self, vals):
         res = super(HrAttendance, self).write(vals)
-        if 'is_exported' not in vals:
+        if 'is_exported' not in vals and 'holiday' not in vals:
             self.create_attendance_wage_type()
         return res
 
@@ -49,11 +50,18 @@ class HrAttendance(models.Model):
                 list_work_time = [(check_in, check_out)]
 
                 for wage_type_id in wage_type_ids:
+                    record.holiday = False
                     if wage_type_id.holiday_high == 'no':
-                        holidays = False
+                        holidays = []
                     else:
                         holidays = self.env['resource.calendar.leaves'].search(
-                            [('holiday_high', '=', wage_type_id.holiday_high)])
+                            [
+                                '&',
+                                ('resource_id', '=', None),
+                                ('holiday_high', '=', wage_type_id.holiday_high == 'True')
+                            ]
+                        )
+
                     if check_in.date() == check_out.date():
                         date = check_in.date()
                         if wage_type_id.start_before_midnight and record._check_before_midnight(check_in):
@@ -68,21 +76,21 @@ class HrAttendance(models.Model):
                                                             round((check_out - check_in).total_seconds() / 3600, 2)))
                                 break
 
-                        elif record._check_hollidays(wage_type_id, date):
+                        elif record._check_hollidays(date, holidays):
                             attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
                                                                                   attendance_wage_type_list, date)
                             if not len(attendance_list) == len(attendance_wage_type_list):
                                 attendance_wage_type_list.append(attendance_list)
 
-                        elif not holidays and not record._check_hollidays(wage_type_id,
-                                                                          date) and not wage_type_id.standard_wage_type and not wage_type_id.start_before_midnight:
+                        elif not holidays and not record._check_hollidays(
+                                                                          date, holidays) and not wage_type_id.standard_wage_type and not wage_type_id.start_before_midnight:
                             attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
                                                                                   attendance_wage_type_list, date)
                             if not len(attendance_list) == len(attendance_wage_type_list):
                                 attendance_wage_type_list.append(attendance_list)
 
                     elif not wage_type_id.standard_wage_type and not wage_type_id.start_before_midnight:
-                        if holidays and not record._check_hollidays(wage_type_id, check_in.date()):
+                        if holidays and not record._check_hollidays(check_in.date(), holidays):
                             continue
                         attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
                                                                               attendance_wage_type_list,
@@ -90,7 +98,7 @@ class HrAttendance(models.Model):
                         if not len(attendance_list) == len(attendance_wage_type_list):
                             attendance_wage_type_list.append(attendance_list)
 
-                        if holidays and not record._check_hollidays(wage_type_id, check_out.date()):
+                        if holidays and not record._check_hollidays(check_out.date(), holidays):
                             continue
                         attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
                                                                               attendance_wage_type_list,
@@ -139,11 +147,10 @@ class HrAttendance(models.Model):
                 'attendance_id': self.id,
             }
 
-    def _check_hollidays(self, wage_type_id, date):
-        holidays = self.env['resource.calendar.leaves'].search([('holiday_high', '=', wage_type_id.holiday_high)])
+    def _check_hollidays(self, date, holidays):
         for holiday in holidays:
-            holiday = Datetime.context_timestamp(self, holiday.date_from).date()
-            if holiday == date:
+            if date == Datetime.context_timestamp(self, holiday.date_from).date():
+                self.holiday = holiday
                 return True
         return False
 
@@ -159,10 +166,6 @@ class HrAttendance(models.Model):
         }
 
     def _check_times(self, list_work_time, wage_type_id, attendance_wage_type_list, date):
-        holidays = self.env['resource.calendar.leaves'].search(
-            [('holiday_high', '=', ('True' == wage_type_id.holiday_high)), ('holiday_high', '!=', None)])
-        holidays = holidays.filtered(lambda r: r.date_from.date() == date)
-
         for i in range(len(list_work_time)):
             if len(list_work_time) == 0 and len(list_work_time) < i:
                 break
@@ -191,9 +194,9 @@ class HrAttendance(models.Model):
                 continue
 
             for time_id in wage_type_id.time_ids:
-                if holidays:
-                    day_start_time = Datetime.context_timestamp(self, holidays[0].date_from)
-                    day_end_time = Datetime.context_timestamp(self, holidays[0].date_to)
+                if self.holiday:
+                    day_start_time = Datetime.context_timestamp(self, self.holiday.date_from)
+                    day_end_time = Datetime.context_timestamp(self, self.holiday.date_to)
                     if time_id.end_time >= 23.98:
                         if check_out.month != check_in.month:
                             day_end_time = day_end_time.replace(month=day_end_time.month + 1, day=1, hour=0, minute=0, second=0, microsecond=0)
