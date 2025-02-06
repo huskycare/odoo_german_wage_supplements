@@ -24,7 +24,6 @@ class HrAttendance(models.Model):
         for attendance in self.attendance_ids:
             if attendance.export_id:
                 self.is_exported = True
-                break
             else:
                 self.is_exported = False
 

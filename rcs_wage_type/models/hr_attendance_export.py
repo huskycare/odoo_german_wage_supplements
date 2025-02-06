@@ -1,10 +1,8 @@
 import base64
-
-from odoo import models, fields
 import io
 import odoo
 from datetime import datetime
-
+from odoo import models, fields
 from odoo.exceptions import UserError
 
 
@@ -24,11 +22,25 @@ class HrAttendanceExport(models.Model):
         empty = self.env['export.hr.attendance'].search([('filename', '=', False), ('id', '!=', self.id)])
         empty.unlink()
 
+        date_from_adjusted = self.date_from.replace(day=1)
+
         records = self.env['attendance_wage_type'].search([
             ('export_id', '=', False),
             ('time_from', '>=', self.date_from),
             ('time_from', '<=', self.date_to)
         ])
+
+        summarized_data = {}
+        for record in records:
+            employee_id = (record.attendance_id.employee_id.id if record.attendance_id.employee_id
+                           else record.leave_id.employee_id.id) or 'UNKNOWN'
+            wage_type_key = record.wage_type_id.number if record.wage_type_id else 'UNKNOWN'
+            key = (employee_id, wage_type_key)
+
+            if key not in summarized_data:
+                summarized_data[key] = 0
+            summarized_data[key] += record.hours * 60
+            record.write({'export_id': self.id})
 
         export_content = io.StringIO()
         datev_consultant_number = self.env.user.company_id.datev_consultant_number or ''
@@ -51,28 +63,18 @@ Stringbegrenzer="
 [Bewegungsdaten]
 """)
 
-        for record in records:
-            u_lod_bwd_buchung_standard = 1
-            abrechnung_zeitraum_bwd = record.time_from.strftime('%d/%m/%Y') if record.time_from else ''
-            bs_nr_bwd = 1
-            bs_wert_butab_bwd = int(record.hours * 60)
-            la_eigene_bwd = record.wage_type_id.number if record.wage_type_id else ''
-            pnr_bwd = (record.attendance_id.employee_id.barcode if record.attendance_id.employee_id
-                       else record.leave_id.employee_id.barcode) or ''
-            kostenstelle_bwd = ''
+        for (employee_id, wage_type), total_minutes in summarized_data.items():
+            line = f"1;{date_from_adjusted.strftime('%d/%m/%Y')};1;{int(round(total_minutes, 0))};{wage_type};{employee_id};;"
+            export_content.write(line + "\n")
 
-            line = f"{u_lod_bwd_buchung_standard};{abrechnung_zeitraum_bwd};{bs_nr_bwd};{bs_wert_butab_bwd};{la_eigene_bwd};{pnr_bwd};{kostenstelle_bwd};\n"
-            export_content.write(line)
-            record.write({'export_id': self.id})
-        if records:
-            self.write(
-                {'export_file': base64.b64encode(
+        if summarized_data:
+            self.write({
+                'export_file': base64.b64encode(
                     export_content.getvalue().encode(encoding='iso-8859-1', errors="replace")),
-                    'filename': "export_" + str(
-                        odoo.fields.Datetime.context_timestamp(self, datetime.now()).strftime(
-                            '%Y_%m_%d_%H_%M')).replace(
-                        '-', '_') + ".txt",
-                })
+                'filename': "export_" + str(
+                    odoo.fields.Datetime.context_timestamp(self, datetime.now()).strftime('%Y_%m_%d_%H_%M')).replace(
+                    '-', '_') + ".txt",
+            })
         else:
             raise UserError("There are no records to export.")
 
