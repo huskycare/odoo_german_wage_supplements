@@ -89,21 +89,19 @@ class HrAttendance(models.Model):
                                 attendance_wage_type_list.append(attendance_list)
 
                     elif not wage_type_id.standard_wage_type and not wage_type_id.start_before_midnight:
-                        if holidays and not record._check_hollidays(check_in.date(), holidays):
-                            continue
-                        attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
-                                                                              attendance_wage_type_list,
-                                                                              check_in.date())
-                        if not len(attendance_list) == len(attendance_wage_type_list):
-                            attendance_wage_type_list.append(attendance_list)
+                        if holidays and record._check_hollidays(check_in.date(), holidays):
+                            attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
+                                                                                  attendance_wage_type_list,
+                                                                                  check_in.date())
+                            if not len(attendance_list) == len(attendance_wage_type_list):
+                                attendance_wage_type_list.append(attendance_list)
 
-                        if holidays and not record._check_hollidays(check_out.date(), holidays):
-                            continue
-                        attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
-                                                                              attendance_wage_type_list,
-                                                                              check_out.date())
-                        if not len(attendance_list) == len(attendance_wage_type_list):
-                            attendance_wage_type_list.append(attendance_list)
+                        if holidays and record._check_hollidays(check_out.date(), holidays):
+                            attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
+                                                                                  attendance_wage_type_list,
+                                                                                  check_out.date())
+                            if not len(attendance_list) == len(attendance_wage_type_list):
+                                attendance_wage_type_list.append(attendance_list)
 
                     elif wage_type_id.start_before_midnight:
                         attendance_list, list_work_time = record._check_times(list_work_time, wage_type_id,
@@ -192,96 +190,106 @@ class HrAttendance(models.Model):
                         list_work_time.append((check_in, midnight))
                 continue
 
-            for time_id in wage_type_id.time_ids:
-                if self.holiday:
-                    day_start_time = Datetime.context_timestamp(self, self.holiday.date_from)
-                    day_end_time = Datetime.context_timestamp(self, self.holiday.date_to)
-                    if time_id.end_time >= 23.98:
-                        if check_out.month != check_in.month:
-                            day_end_time = day_end_time.replace(month=day_end_time.month + 1, day=1, hour=0, minute=0, second=0, microsecond=0)
-                        elif check_out.day != check_in.day:
-                            day_end_time = day_end_time.replace(day=day_end_time.day + 1, hour=0, minute=0, second=0,
+            if wage_type_id.holiday_high != 'no' and self.holiday:
+                day_start_time = Datetime.context_timestamp(self, self.holiday.date_from)
+                day_end_time = Datetime.context_timestamp(self, self.holiday.date_to)
+                if self.datetime_to_float(self.holiday.date_to) >= 23.98:
+                    if check_out.month != check_in.month:
+                        day_end_time = day_end_time.replace(month=day_end_time.month + 1, day=1, hour=0, minute=0,
+                                                            second=0, microsecond=0)
+                    elif check_out.day != check_in.day:
+                        day_end_time = day_end_time.replace(day=day_end_time.day + 1, hour=0, minute=0, second=0,
                                                             microsecond=0)
-                else:
-                    start_hour = int(time_id.start_time)
-                    start_minutes = int((time_id.start_time - start_hour) * 60)
-                    day_start_time = check_in.replace(year=date.year, month=date.month, day=date.day, hour=start_hour,
-                                                      minute=start_minutes, second=0, microsecond=0)
+                self._check_work_times(wage_type_id, attendance_wage_type_list, list_work_time, day_start_time, day_end_time, check_in, check_out)
+                return attendance_wage_type_list, list_work_time
 
-                    end_hour = int(time_id.end_time)
-                    end_minutes = int((time_id.end_time - end_hour) * 60)
-                    day_end_time = check_out.replace(year=date.year, month=date.month, day=date.day, hour=0, minute=0, second=0, microsecond=0)
-                    if end_hour == 0 and end_minutes == 0 or time_id.end_time >= 23.98:
-                        last_day_of_month = calendar.monthrange(day_end_time.year, day_end_time.month)[1]
-                        if day_end_time.day == last_day_of_month:
-                            day_end_time = day_end_time.replace(month= day_end_time.month + 1, day=1)
-                        else:
-                            day_end_time = day_end_time.replace(day=date.day + 1)
+            for time_id in wage_type_id.time_ids:
+                start_hour = int(time_id.start_time)
+                start_minutes = int((time_id.start_time - start_hour) * 60)
+                day_start_time = check_in.replace(year=date.year, month=date.month, day=date.day, hour=start_hour,
+                                                  minute=start_minutes, second=0, microsecond=0)
+                end_hour = int(time_id.end_time)
+                end_minutes = int((time_id.end_time - end_hour) * 60)
+                day_end_time = check_out.replace(year=date.year, month=date.month, day=date.day, hour=0, minute=0,
+                                                 second=0, microsecond=0)
+                if end_hour == 0 and end_minutes == 0 or time_id.end_time >= 23.98:
+                    last_day_of_month = calendar.monthrange(day_end_time.year, day_end_time.month)[1]
+                    if day_end_time.day == last_day_of_month:
+                        day_end_time = day_end_time.replace(month=day_end_time.month + 1, day=1)
                     else:
-                        day_end_time = day_end_time.replace(hour=end_hour, minute=end_minutes)
-                if day_end_time <= check_in or day_start_time >= check_out:
-                    list_work_time.pop(0)
-                    list_work_time.append((check_in, check_out))
-                    continue
-                elif day_start_time <= check_in:
-                    if day_end_time <= check_out:
-                        attendance_wage_type_list.append(
-                            self._data_for_append(wage_type_id, check_in, day_end_time,
-                                                  round(
-                                                      (day_end_time - check_in).total_seconds() / 3600,
-                                                      2)))
-                        list_work_time.pop(0)
-                        if day_end_time == check_out:
-                            continue
-                        check_in = day_end_time
-                        list_work_time.append((day_end_time, check_out))
-                        continue
-                    elif day_end_time >= check_out:
-                        attendance_wage_type_list.append(
-                            self._data_for_append(wage_type_id, check_in, check_out,
-                                                  round(
-                                                      (check_out - check_in).total_seconds() / 3600,
-                                                      2)))
-                        list_work_time.pop(0)
-                        return attendance_wage_type_list, list_work_time
-
-                elif day_start_time >= check_in:
-                    if day_end_time <= check_out:
-                        attendance_wage_type_list.append(
-                            self._data_for_append(wage_type_id, day_start_time, day_end_time,
-                                                  round(
-                                                      (day_end_time - day_start_time).total_seconds() / 3600,
-                                                      2)))
-                        if day_end_time == check_out and day_start_time == check_in:
-                            list_work_time.pop(0)
-                            return attendance_wage_type_list, list_work_time
-                        if not day_start_time == check_in:
-                            list_work_time.append((check_in, day_start_time))
-                        if not day_end_time == check_out:
-                            list_work_time.append((day_end_time, check_out))
-                        list_work_time.pop(0)
-                        continue
-                    elif day_start_time <= check_in:
-                        list_work_time.pop(0)
-                        list_work_time.append((check_in, check_out))
-                        continue
-                    elif day_end_time >= check_out:
-                        attendance_wage_type_list.append(
-                            self._data_for_append(wage_type_id, day_start_time, check_out,
-                                                  round(
-                                                      (check_out - day_start_time).total_seconds() / 3600,
-                                                      2)))
-                        if day_end_time == check_out and day_start_time == check_in:
-                            list_work_time.pop(0)
-                            return attendance_wage_type_list, list_work_time
-                        if not day_start_time == check_in:
-                            list_work_time.pop(0)
-                            list_work_time.append((check_in, day_start_time))
-                        continue
+                        day_end_time = day_end_time.replace(day=date.day + 1)
                 else:
-                    list_work_time.pop(0)
-                    list_work_time.append((check_in, check_out))
+                    day_end_time = day_end_time.replace(hour=end_hour, minute=end_minutes)
+                self._check_work_times(wage_type_id, attendance_wage_type_list, list_work_time, day_start_time, day_end_time, check_in, check_out)
+                return attendance_wage_type_list, list_work_time
         return attendance_wage_type_list, list_work_time
+
+    def _check_work_times(self, wage_type_id, attendance_wage_type_list, list_work_time, day_start_time, day_end_time, check_in, check_out):
+        if day_end_time <= check_in or day_start_time >= check_out:
+            list_work_time.pop(0)
+            list_work_time.append((check_in, check_out))
+            return
+        elif day_start_time <= check_in:
+            if day_end_time <= check_out:
+                attendance_wage_type_list.append(
+                    self._data_for_append(wage_type_id, check_in, day_end_time,
+                                          round(
+                                              (day_end_time - check_in).total_seconds() / 3600,
+                                              2)))
+                list_work_time.pop(0)
+                if day_end_time == check_out:
+                    return
+                check_in = day_end_time
+                list_work_time.append((day_end_time, check_out))
+                return
+            elif day_end_time >= check_out:
+                attendance_wage_type_list.append(
+                    self._data_for_append(wage_type_id, check_in, check_out,
+                                          round(
+                                              (check_out - check_in).total_seconds() / 3600,
+                                              2)))
+                list_work_time.pop(0)
+                return
+
+        elif day_start_time >= check_in:
+            if day_end_time <= check_out:
+                attendance_wage_type_list.append(
+                    self._data_for_append(wage_type_id, day_start_time, day_end_time,
+                                          round(
+                                              (day_end_time - day_start_time).total_seconds() / 3600,
+                                              2)))
+                if day_end_time == check_out and day_start_time == check_in:
+                    list_work_time.pop(0)
+                    return
+                if not day_start_time == check_in:
+                    list_work_time.append((check_in, day_start_time))
+                if not day_end_time == check_out:
+                    list_work_time.append((day_end_time, check_out))
+                list_work_time.pop(0)
+                return
+            elif day_start_time <= check_in:
+                list_work_time.pop(0)
+                list_work_time.append((check_in, check_out))
+                return
+            elif day_end_time >= check_out:
+                attendance_wage_type_list.append(
+                    self._data_for_append(wage_type_id, day_start_time, check_out,
+                                          round(
+                                              (check_out - day_start_time).total_seconds() / 3600,
+                                              2)))
+                if day_end_time == check_out and day_start_time == check_in:
+                    list_work_time.pop(0)
+                    return
+                if not day_start_time == check_in:
+                    list_work_time.pop(0)
+                    list_work_time.append((check_in, day_start_time))
+                return
+        else:
+            list_work_time.pop(0)
+            list_work_time.append((check_in, check_out))
+
+    def datetime_to_float(self, datetime):
+        return datetime.hour + datetime.minute / 60.0
 
     def _check_before_midnight(self, check_in):
         hr_attendance = self.env['hr.attendance'].search(
