@@ -32,8 +32,8 @@ class HrAttendanceExport(models.Model):
 
         summarized_data = {}
         for record in records:
-            employee_id = (record.attendance_id.employee_id.id if record.attendance_id.employee_id
-                           else record.leave_id.employee_id.id) or 'UNKNOWN'
+            employee_id = (record.attendance_id.employee_id.barcode if record.attendance_id.employee_id
+                           else record.leave_id.employee_id.barcode) or 'UNKNOWN'
             wage_type_key = record.wage_type_id.number if record.wage_type_id else 'UNKNOWN'
             key = (employee_id, wage_type_key)
 
